@@ -17,7 +17,7 @@ services:
 
   api:
     container_name: api_a_sacha
-    image: testasacha
+    image: senseo/bugasacha
     restart: always
     depends_on: 
       - db
