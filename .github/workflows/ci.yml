@@ -56,6 +56,7 @@ jobs:
     
   
     deploy:
+        if: ${{ !contains(github.event.head_commit.message, '#docker')}}
         needs: [routage]
         runs-on: self-hosted
 
@@ -73,3 +74,11 @@ jobs:
 
             - name: Start API
               run: pm2 restart pm2.config.js
+
+    docker:
+      needs: [routage]
+      if: ${{ contains(github.event.head_commit.message, '#docker')}}
+      uses: ./.github/workflows/docker.yml
+      secrets: inherit
+
+      

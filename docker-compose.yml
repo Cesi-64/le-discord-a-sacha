@@ -3,10 +3,9 @@ version: '3.1'
 services:
 
   db:
+    container_name: bdd_a_sacha
     image: mariadb
     restart: always
-    ports:
-      - 3306:3306
     volumes:
       - ./mysql:/var/lib/mysql
     environment:
@@ -14,9 +13,26 @@ services:
       MARIADB_DATABASE: discord
       MARIADB_USER: sacha
       MARIADB_PASSWORD: ahcas
+    profiles: [prod, dev]
+
+  api:
+    container_name: api_a_sacha
+    image: testasacha
+    restart: always
+    depends_on: 
+      - db
+    ports:
+      - 9000:9000
+    environment:
+      DB_HOST: db
+      DB_USER: sacha
+      DB_PASS: ahcas
+    profiles: [prod, dev]
 
   adminer:
+    container_name: adminer_a_sacha
     image: adminer
     restart: always
     ports:
       - 8080:8080
+    profiles: [dev]
